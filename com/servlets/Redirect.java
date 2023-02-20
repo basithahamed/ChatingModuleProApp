@@ -1,4 +1,4 @@
-package com;
+package com.servlets;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * redirect
  */
-public class redirect extends HttpServlet {
+public class Redirect extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

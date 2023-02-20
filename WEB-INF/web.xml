@@ -12,7 +12,7 @@
     </welcome-file-list>
     <servlet>
         <servlet-name>redirect</servlet-name>
-        <servlet-class>com.redirect</servlet-class>
+        <servlet-class>com.servlets.Redirect</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>redirect</servlet-name>
@@ -20,7 +20,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>set</servlet-name>
-        <servlet-class>com.set</servlet-class>
+        <servlet-class>com.servlets.Set</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>set</servlet-name>

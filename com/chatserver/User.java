@@ -1,4 +1,4 @@
-package com;
+package com.chatserver;
 
 import javax.websocket.Session;
 
@@ -9,18 +9,17 @@ public class User {
 
     private Session session;
     private String username;
-    private int userId;
+    private Long userId;
 
-    User(Session session,String username){
+    User(Session session,Long userId){
         this.session=session;
-        this.username=username;
-        
-
+        // this.username=username;
+        this.userId=userId;
     }
     public Session getSession() {
         return session;
     }
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
     public String getUsername() {

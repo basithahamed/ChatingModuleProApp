@@ -12,7 +12,7 @@
     }
 </style>
 <body>
-    name: <input type="text" name="username">
+    userid: <input type="text" name="uid">
     <button>Submit</button>
     <a href="redirect">redirect</a>
 </body>
@@ -22,7 +22,7 @@
     {
         x.open("POST","set")
         x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        x.send(`username=${document.querySelector("input").value}`)
+        x.send(`uid=${document.querySelector("input").value}`)
         x.onload=()=>
         {
             document.querySelector("a").click()

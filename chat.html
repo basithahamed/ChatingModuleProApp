@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- Message: <textarea name="message" id="" cols="30" rows="10"></textarea><br> -->
+    <div class="name">
+        Welcome 
+    </div>
+    <br>
+    Add Project <button>Submit</button>
+    <div class="empty">
+
+    </div>
+</body>
+<script>
+    message = '{"uid":1,"userName":"Bharath"}';
+    payload='{"projectName":"web Socket Testing summa","projectDesc":"summa","fromDate":"2023-02-19","toDate":"2023-02-21","users":["1","4",2],"createdBy":2}'
+
+    var username
+    let x = new XMLHttpRequest()
+    var ws;
+    x.open("GET", "set")
+    x.send()
+    x.onload = () => {
+        // console.log(x.responseText)
+        username=x.responseText
+        document.querySelector(".name").innerText+=" "+username
+        ws = new WebSocket(`ws:10.52.0.126:8050/ChatingModuleProApp/chat?name=${username}`)
+        ws.onopen = function () {
+            console.log("Connection Opened")
+            var t = setInterval(function () {
+                if (ws.readyState != 1) {
+                    clearInterval(t);
+                    return;
+                }
+            })
+        }
+        ws.onmessage = (event) => {
+
+            document.querySelector(".empty").innerHTML += `<p>${event.data}</p>`
+        }
+    }
+
+    document.querySelector("button").addEventListener("click", function () {
+
+        let formdata=new FormData;
+        formdata.append("data",payload)
+        x.open("POST","http://10.52.0.126:8050/ProApp/project/add")
+        x.send(formdata)
+        x.onload=()=>
+        {
+            console.log("sent sucessfully:",x.responseText)
+        }        
+        ws.send(message)
+
+    })
+
+    window.onerror = event => {
+        console.log(event.data);
+    }
+    window.onbeforeunload = function () {
+        websocket.onclose = function () { }; // disable onclose handler first
+        websocket.close();
+    };
+</script>
+
+
+</html>

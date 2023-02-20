@@ -10,5 +10,20 @@
         <welcome-file>default.jsp</welcome-file>
         <welcome-file>default.html</welcome-file>
     </welcome-file-list>
-
+    <servlet>
+        <servlet-name>redirect</servlet-name>
+        <servlet-class>com.redirect</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>redirect</servlet-name>
+        <url-pattern>/redirect</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>set</servlet-name>
+        <servlet-class>com.set</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>set</servlet-name>
+        <url-pattern>/set</url-pattern>
+    </servlet-mapping>
 </web-app>

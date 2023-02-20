@@ -6,7 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    a{
+        display: none;
+    }
+</style>
 <body>
-    <h1>hi i am from servlet</h1>
+    name: <input type="text" name="username">
+    <button>Submit</button>
+    <a href="redirect">redirect</a>
 </body>
+<script>
+    let x=new XMLHttpRequest()
+    document.querySelector("button").addEventListener("click",function()
+    {
+        x.open("POST","set")
+        x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        x.send(`username=${document.querySelector("input").value}`)
+        x.onload=()=>
+        {
+            document.querySelector("a").click()
+        }
+
+    })
+</script>
+
 </html>

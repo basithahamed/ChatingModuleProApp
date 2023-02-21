@@ -80,10 +80,9 @@ public class ChatServer {
             jsObj.put("messageContent", js.get("messageContent"));
             jsObj.put("from", js.get("from"));
             for (User user : arr) {
-                if(user.getUserId()==Long.parseLong(String.valueOf(js.get("to"))))
+                if(user.getUserId()==Long.parseLong(String.valueOf(js.get("to"))) && user.getSession().getId()!=session.getId())
                 {
                     try {
-                        
                         user.getSession().getBasicRemote().sendText(jsObj.toJSONString());
                     } catch (IOException e) {
                         // TODO Auto-generated catch block

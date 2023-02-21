@@ -7,32 +7,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    .container {
+        display: flex;
+        width: 100vw;
+        justify-content: space-around;
+    }
+
+    .right {
+        border: 1px solid;
+    }
+</style>
 
 <body>
     <!-- Message: <textarea name="message" id="" cols="30" rows="10"></textarea><br> -->
-    <div class="name">
-        Welcome 
-    </div>
-    <br>
-    Add Project <button>Submit</button>
-    <div class="empty">
+    <div class="container">
+        <div class="left">
+            <div class="name">
+                Welcome
+            </div>
+            <br>
+            <!-- Add Project <button>Submit</button> -->
+            <br>
+            Users:
+            <div class="users">
 
+            </div>
+            <div class="empty">
+
+            </div>
+
+            <br>
+            <br>
+
+            To: <input type="text" value="" name="to"> <br>
+            <br>
+            <br>
+            Message: <br>
+            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <br>
+            <br>
+            <button>Send</button>
+        </div>
+
+        <div class="right">
+            <h1>Your Message</h1>
+        </div>
     </div>
 </body>
 <script>
-    message = '{"projectId":72,"messageType":"projectUpdate"}';
+    // message = '{"projectId":72,"messageType":"projectUpdate"}';
+    message = '{"messageType":"userAdded"}'
     // payload='{"projectName":"web Socket Testing summa","projectDesc":"summa","fromDate":"2023-02-19","toDate":"2023-02-21","users":["1","4",2],"createdBy":2}'
 
-    var username
+    // var username
     let x = new XMLHttpRequest()
     var ws;
     x.open("GET", "set")
     x.send()
     x.onload = () => {
         // console.log(x.responseText)
-        uid=x.responseText
-        document.querySelector(".name").innerText+=" "+uid
-        ws = new WebSocket(`ws:10.52.0.126:8050/ChatingModuleProApp/chat?uid=${uid}`)
+        uid = x.responseText
+        document.querySelector(".name").innerText += " " + uid
+        ws = new WebSocket(`ws:localhost:8050/ChatingModuleProApp/chat?uid=${uid}`)
         ws.onopen = function () {
             console.log("Connection Opened")
             var t = setInterval(function () {
@@ -41,26 +78,36 @@
                     return;
                 }
             })
-        }
-        ws.onmessage = (event) => {
+            ws.send(message);
+            ws.onmessage = (event) => {
 
-            document.querySelector(".empty").innerHTML += `<p>${event.data}</p>`
+                let tempVar=JSON.parse(event.data)
+                if(tempVar.messageType=="userAdded")
+                {
+                    document.querySelector(".users").innerHTML=""
+                    tempVar.users.forEach(element => {
+                        document.querySelector(".users").innerHTML += `<p>${element}</p>`
+
+                    });
+                }
+                else if(tempVar.messageType=="textMessage")
+                {
+                    console.log("Content:"+tempVar.messageContent)
+                    document.querySelector(".right").innerHTML+=`<p>${tempVar.from}:${tempVar.messageContent}</p>`
+                }
+            }
+
         }
+
     }
 
     document.querySelector("button").addEventListener("click", function () {
+        let tempMessage = `{"messageType":"textMessage","messageContent":"${document.querySelector("textarea").value}","to":${document.querySelector("input").value},"from":${uid}}`
 
-        // let formdata=new FormData;
-        // formdata.append("data",payload)
-        // x.open("POST","http://10.52.0.126:8050/ProApp/project/add")
-        // x.send(formdata)
-        // x.onload=()=>
-        // {
-        //     console.log("sent sucessfully:",x.responseText)
-        // }        
-        ws.send(message)
+        ws.send(tempMessage)
 
     })
+
 
     window.onerror = event => {
         console.log(event.data);

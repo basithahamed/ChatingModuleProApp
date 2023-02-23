@@ -1,5 +1,7 @@
 package com.chatserver;
 
+
+
 import javax.websocket.Session;
 
 /**
@@ -10,7 +12,6 @@ public class User {
     private Session session;
     private String username;
     private Long userId;
-
     User(Session session,Long userId){
         this.session=session;
         // this.username=username;
@@ -25,6 +26,5 @@ public class User {
     public String getUsername() {
         return username;
     }
-    
-
+   
 }

@@ -69,7 +69,7 @@
         // console.log(x.responseText)
         uid = x.responseText
         document.querySelector(".name").innerText += " " + uid
-        ws = new WebSocket(`ws:localhost:8050/ChatingModuleProApp/chat?uid=${uid}`)
+        ws = new WebSocket(`ws:10.52.0.131:8050/ChatingModuleProApp/chat?uid=${uid}`)
         ws.onopen = function () {
             console.log("Connection Opened")
             var t = setInterval(function () {

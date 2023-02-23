@@ -1,6 +1,8 @@
 package com.chatserver;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +22,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.apicall.UsersApiCall;
+import com.databases.AddMessage;
 
 /**
  * ChatServer
@@ -27,7 +30,17 @@ import com.apicall.UsersApiCall;
 @ServerEndpoint("/chat")
 public class ChatServer {
     static Set<User> arr = new HashSet<>();
+    // private Connection c=DriverManager.getConnection("jdbc:mysql://10.52.0.126:3306/proapp", "todoadmins", "todo@111");
 
+    // ChatServer(){
+    //     try {
+    //         connection= DriverManager.getConnection("jdbc:mysql://10.52.0.126:3306/proapp", "todoadmins", "todo@111"); 
+    //         Class.forName("com.mysql.cj.jdbc.Driver");
+    //     } catch (Exception e) {
+    //         // TODO: handle exception
+    //     }
+    // }
+    
     @OnOpen
     public void connect(Session session) {
         Map<String, List<String>> hashMap = session.getRequestParameterMap();
@@ -55,7 +68,7 @@ public class ChatServer {
                 if(alreadyExist(arrList))
                 {
                     for (User user : arr) {
-                        if(arrList.equals(user.getUserId()) && arrList!=js.get("userId"))
+                        if(arrList.equals(user.getSession().getId()) && arrList!=js.get("userId"))
                         {
                             try {
                                 user.getSession().getBasicRemote().sendText("{'Description'you have been added','messageType':'projectUpdate'}");
@@ -79,11 +92,14 @@ public class ChatServer {
             jsObj.put("messageType", "textMessage");
             jsObj.put("messageContent", js.get("messageContent"));
             jsObj.put("from", js.get("from"));
+            AddMessage add=new AddMessage();
+            
             for (User user : arr) {
                 if(user.getUserId()==Long.parseLong(String.valueOf(js.get("to"))) && user.getSession().getId()!=session.getId())
                 {
                     try {
                         user.getSession().getBasicRemote().sendText(jsObj.toJSONString());
+                        add.addMessage(js.toJSONString());
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
